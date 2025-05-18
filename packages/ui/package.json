@@ -4,8 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
-    "ui": "pnpm dlx shadcn@latest add"
+    "ui": "bunx -bun shadcn@latest add"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.2",
@@ -20,7 +19,6 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@tailwindcss/postcss": "^4.1.6",
     "@turbo/gen": "^2.5.3",
