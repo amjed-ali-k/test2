@@ -12,15 +12,19 @@
     "ui": "pnpm --filter @repo/ui ui"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
     "eslint": "^9.26.0",
     "prettier": "^3.5.3",
     "turbo": "^2.5.3",
     "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@10.4.1",
   "engines": {
     "node": ">=20"
-  }
+  },
+  "packageManager": "bun@1.2.8",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }
