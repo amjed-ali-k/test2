@@ -4,19 +4,23 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import { useAuth } from "@clerk/react-router";
 
 export default function PostLogin() {
   const eden = useEden();
+  const auth = useAuth()
   const navigate = useNavigate();
   const { refetch } = useQuery({
     queryKey: ["current-user"],
-    queryFn: () =>
-      eden().then((e) => e.user["get-current-user"].get().then((k) => k.data)),
+    queryFn: () => eden.user["get-current-user"].get().then(({ data }) => data),
+    enabled: false
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    refetch().then(({ data }) => {
+    refetch().then(async ({ data }) => {
       if (!data) {
+        await auth.signOut()
         return navigate("/sign-out");
       }
       if (data.isApproved) {
@@ -30,6 +34,7 @@ export default function PostLogin() {
           description:
             "You will be signed out. Login to organization dashboard to continue.",
         });
+        await auth.signOut()
         return navigate("/sign-out");
       }
     });
@@ -40,8 +45,7 @@ export default function PostLogin() {
         const ip = data.ip;
         const userAgent = navigator.userAgent;
         const platform = navigator.platform;
-        const e = await eden();
-        return e.user.meta.newLogin.post({ ip, userAgent, platform });
+        return eden.user.meta.newLogin.post({ ip, userAgent, platform });
       });
   }, [eden, refetch, navigate]);
 

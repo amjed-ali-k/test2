@@ -2,26 +2,30 @@ import { treaty } from "@elysiajs/eden";
 import type { App } from "@repo/api";
 import { useAuth } from "@clerk/react-router";
 
-const useToken = () => {
-  const session = useAuth();
-  return session.getToken;
-};
+// Base URL for API requests
+const API_BASE_URL = "http://localhost:3500";
 
-export const eden = treaty<App>("http://localhost:3500", {
+// Create a non-authenticated client for public endpoints
+export const eden = treaty<App>(API_BASE_URL, {
   keepDomain: !!import.meta.env.PROD,
 });
 
+/**
+ * Custom hook to get an authenticated API client
+ * @returns A function that returns a Promise resolving to the authenticated API client
+ */
 export const useEden = () => {
-  const token = useToken();
-  return async () => {
-    const header = {
-      Authorization: `Bearer ${await token()}`,
-    };
-    return treaty<App>("http://localhost:3500", {
-      keepDomain: !!import.meta.env.PROD,
-      headers: header,
-    });
-  };
-};
+  // Get the auth session
+  const auth = useAuth();
 
-// const res = await ed().then(e => e.admin.allOrgAdmins.get().then(k => k.data as {data: {id: number, name: string}[]}));
+  // Return a function that creates an authenticated API client
+  return treaty<App>(API_BASE_URL, {
+    keepDomain: !!import.meta.env.PROD,
+    onRequest: async (_, options) => {
+      options.headers = {
+        Authorization: `Bearer ${await auth.getToken()}`,
+        ...(options.headers as Record<string, string>),
+      };
+    },
+  });
+};

@@ -7,6 +7,7 @@ import { MobileNavbar } from "@repo/ui/layout/mobile-nav";
 import logo from "@/assets/care24-logo.png";
 import icon from "@/assets/icon.png";
 import { Bell } from "lucide-react";
+import { UserType } from "@/types/general";
 
 export const LayoutDashboard = () => {
   return (
@@ -17,6 +18,7 @@ export const LayoutDashboard = () => {
             Care24icon={icon}
             Care24logo={logo}
             items={_nav}
+            isUserApproved
             // cards={
             //   <>
             //     <ProfileCard />
@@ -26,7 +28,7 @@ export const LayoutDashboard = () => {
           />
         </div>
         <div className="flex h-[72px] items-center justify-between border-b px-6 md:hidden">
-          <MobileNavbar items={_nav} Care24logo={logo}>
+          <MobileNavbar items={_nav} Care24logo={logo} isUserApproved>
             {/* <>
               <ProfileCard />
               <AvailabilityCard />
@@ -47,8 +49,7 @@ function Badge() {
   const eden = useEden();
   const { data: count, isLoading } = useQuery({
     queryKey: ["notification-count"],
-    queryFn: () =>
-      eden().then((e) => e.user.invitations.unread.get().then((k) => k.data)),
+    queryFn: () => eden.user.invitations.unread.get().then((k) => k.data),
   });
 
   if (!count) return null;
@@ -63,44 +64,28 @@ function Badge() {
 }
 
 export function NotificationPill() {
-    const eden = useEden();
-    const { data: count, isLoading } = useQuery({
-      queryKey: ["notification-count"],
-      queryFn: () =>
-        eden().then((e) => e.user.invitations.unread.get().then((k) => k.data)),
-    });
-  
-    if (!count) return null;
-    if (isLoading) return null;
-    if (!count.length) return null;
-    if (Number(count[0]?.count) === 0) return null;
-    return (
-      <>
-        <Link
-          to="/invitations"
-          className="flex items-center space-x-2 p-1 lg:hidden"
-        >
-          <Bell />
-          <Badge />
-        </Link>
-      </>
-    );
-  }
-  
+  const eden = useEden();
+  const { data: count, isLoading } = useQuery({
+    queryKey: ["notification-count"],
+    queryFn: () => eden.user.invitations.unread.get().then((k) => k.data),
+  });
 
-const UserType = {
-  UNKNOWN: "UNKNOWN",
-  REGISTERED_NURSE: "REGISTERED_NURSE",
-  CARER: "CARER",
-  ORGANISATION_ADMIN: "ORGANISATION_ADMIN",
-  SYSTEM_ADMIN: "SYSTEM_ADMIN",
-  REGISTERED_PRACTICAL_NURSE: "REGISTERED_PRACTICAL_NURSE",
-  DOCTOR_OF_SOCIAL_WORK: "DOCTOR_OF_SOCIAL_WORK",
-  PERSONAL_SUPPORT_WORKER: "PERSONAL_SUPPORT_WORKER",
-  INTERNAL_STAFF: "INTERNAL_STAFF",
-  DIETARY_AIDE: "DIETARY_AIDE",
-} as const;
-type UserType = keyof typeof UserType;
+  if (!count) return null;
+  if (isLoading) return null;
+  if (!count.length) return null;
+  if (Number(count[0]?.count) === 0) return null;
+  return (
+    <>
+      <Link
+        to="/invitations"
+        className="flex items-center space-x-2 p-1 lg:hidden"
+      >
+        <Bell />
+        <Badge />
+      </Link>
+    </>
+  );
+}
 
 const normalUsers = [
   UserType.CARER,

@@ -77,8 +77,6 @@ export function MainNavbar({
   const location = useLocation();
   const segment = location.pathname.split("/")[1];
 
-
-
   return (
     <div
       className={cn(

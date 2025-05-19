@@ -9,7 +9,7 @@ export const LayoutOnboarding = () => {
   const { data } = useQuery({
     queryKey: ["onboarding"],
     queryFn: () =>
-      eden().then((e) => e.user.onboarding.status.get().then((k) => k.data)),
+      eden.user.onboarding.status.get().then((k) => k.data),
   });
 
   console.log(location);
