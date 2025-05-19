@@ -9,6 +9,7 @@ import { Link } from "react-router";
 import { ShiftViewComponent } from "@/components/shift/shift-view";
 import { useUser } from "@/hooks.ts/use-user";
 import CurrentShiftCard from "@/components/shift/current-shift-card";
+import AllshiftsComponent from "@/components/shift/all-shifts";
 
 export default function Page() {
   const user = useUser();
@@ -25,6 +26,7 @@ export default function Page() {
         <CurrentShiftCard />
         <UpcomingShifts />
       </div>
+      <AllshiftsComponent />
     </main>
   );
 }

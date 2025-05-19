@@ -29,3 +29,5 @@ export const useEden = () => {
     },
   });
 };
+
+export type EdenType = typeof eden;

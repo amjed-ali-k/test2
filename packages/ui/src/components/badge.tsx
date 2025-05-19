@@ -33,6 +33,12 @@ const badgeVariants = cva(
         CARER: " bg-primary-bg-subtle text-[#1290E5]",
         INTERNAL_STAFF: "bg-warning-bg-subtle text-warning-text",
       },
+      size: {
+        default: "px-2.5 py-0.5 text-xs ",
+        sm: " px-[8px] py-[2px] text-[12px] ",
+        md: "px-[10px] py-[2px] text-[14px] ",
+        lg: "px-[12px] py-[4px] text-[14px] ",
+      },
     },
     defaultVariants: {
       variant: "default",
