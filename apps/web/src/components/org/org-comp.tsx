@@ -1,6 +1,6 @@
 "use client";
 
-import { useOrg } from "@/hooks.ts/use-org";
+import { useOrg } from "@/hooks/use-org";
 import { useEden } from "@/lib/api";
 import {
   Avatar,

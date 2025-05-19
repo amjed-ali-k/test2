@@ -1,4 +1,4 @@
-import { useAvailability } from "@/hooks.ts/use-availability";
+import { useAvailability } from "@/hooks/use-availability";
 import { Button } from "@repo/ui/components/button";
 import { Skeleton } from "@repo/ui/components/skeleton";
 import { Check, X } from "lucide-react";
@@ -7,7 +7,7 @@ import { useEden } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import { ShiftViewComponent } from "@/components/shift/shift-view";
-import { useUser } from "@/hooks.ts/use-user";
+import { useUser } from "@/hooks/use-user";
 import CurrentShiftCard from "@/components/shift/current-shift-card";
 import AllshiftsComponent from "@/components/shift/all-shifts";
 

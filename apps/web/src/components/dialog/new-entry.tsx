@@ -13,9 +13,9 @@ import { Badge, Loader2Icon, DoorOpen, DoorClosed } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { isAfter, isSameMinute } from "date-fns";
-import { useTimesheet } from "@/hooks.ts/use-timesheet";
+import { useTimesheet } from "@/hooks/use-timesheet";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEntries } from "@/hooks.ts/use-entries";
+import { useEntries } from "@/hooks/use-entries";
 
 export function NewEntryModal({ id }: { id: string }) {
   const api = useEden();

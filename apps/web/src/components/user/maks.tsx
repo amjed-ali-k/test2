@@ -1,4 +1,4 @@
-import { useUser } from "@/hooks.ts/use-user";
+import { useUser } from "@/hooks/use-user";
 
 const SystemAdminView = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();

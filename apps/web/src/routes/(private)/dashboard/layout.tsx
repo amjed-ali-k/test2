@@ -9,7 +9,9 @@ import icon from "@/assets/icon.png";
 import { Bell } from "lucide-react";
 import { UserType } from "@/types/general";
 import { useAuth } from "@clerk/react-router";
-import { useUser } from "@/hooks.ts/use-user";
+import { useUser } from "@/hooks/use-user";
+import { AvailabilityCard } from "@/components/nav/availability-card";
+import { ProfileCard } from "@/components/nav/profile-card";
 
 export const LayoutDashboard = () => {
   const user = useUser();
@@ -26,12 +28,12 @@ export const LayoutDashboard = () => {
             user={user}
             signOut={auth.signOut}
 
-            // cards={
-            //   <>
-            //     <ProfileCard />
-            //     <AvailabilityCard />
-            //   </>
-            // }
+            cards={
+              <>
+                <ProfileCard />
+                <AvailabilityCard />
+              </>
+            }
           />
         </div>
         <div className="flex h-[72px] items-center justify-between border-b px-6 md:hidden">
@@ -42,10 +44,10 @@ export const LayoutDashboard = () => {
             user={user}
             signOut={auth.signOut}
           >
-            {/* <>
+            <>
               <ProfileCard />
               <AvailabilityCard />
-            </> */}
+            </>
           </MobileNavbar>
           <NotificationPill />
         </div>
