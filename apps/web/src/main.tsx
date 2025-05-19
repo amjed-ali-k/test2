@@ -11,6 +11,7 @@ import { LayoutUnauthenticated } from "@/components/layout-unauthenticated.js";
 import SignIn from "@/routes/(public)/sign-in";
 import SignOut from "@/routes/(public)/sign-out";
 import SignUp from "@/routes/(public)/sign-up";
+import { Toaster } from "@repo/ui/components/sonner";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -55,5 +56,6 @@ createRoot(document.getElementById("root")!).render(
         </Routes>
       </ClerkProvider>
     </BrowserRouter>
+    <Toaster />
   </StrictMode>
 );

@@ -41,7 +41,6 @@ export const LayoutUnauthenticated = () => {
       </div>
       <Toaster />
     </div>
-   
     </SignedOut>
   );
 };

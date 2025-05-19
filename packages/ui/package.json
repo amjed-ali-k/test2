@@ -47,6 +47,7 @@
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.56.4",
     "react-resizable-panels": "^3.0.2",
+    "react-router": "^7.6.0",
     "recharts": "^2.15.3",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.3.0",
@@ -69,6 +70,7 @@
     "./postcss.config": "./postcss.config.mjs",
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./hooks/*": "./src/hooks/*.ts",
+    "./layout/*": "./src/layout/*.tsx"
   }
 }
