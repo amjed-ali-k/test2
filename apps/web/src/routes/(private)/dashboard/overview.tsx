@@ -7,14 +7,25 @@ import { useEden } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import { ShiftViewComponent } from "@/components/shift/shift-view";
+import { useUser } from "@/hooks.ts/use-user";
+import CurrentShiftCard from "@/components/shift/current-shift-card";
 
 export default function Page() {
+  const user = useUser();
   return (
-    <div className="mt-2 grow">
-      <AvailabilityCard />
-      {/* <CurrentShiftCard /> */}
-      <UpcomingShifts />
-    </div>
+    <main className="px-4">
+      <h2 className="lg:text-3xl">
+        Welcome back, {user?.firstName} {user?.lastName}{" "}
+      </h2>
+      <p className=" lg:text-base">
+        Track your shifts and monitor your earnings seamlessly.
+      </p>
+      <div className="mt-2 grow">
+        <AvailabilityCard />
+        <CurrentShiftCard />
+        <UpcomingShifts />
+      </div>
+    </main>
   );
 }
 
