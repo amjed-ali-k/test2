@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "../components/sheet.js";
 import { ScrollArea } from "../components/scroll-area.js";
-import { iconList, type MainNavItem, NavLinkItem } from "./main-nav.js";
+import { iconList, type MainNavItem, NavLinkItem, UserAccountNav, type UserNavProps } from "./main-nav.js";
 import {
   Accordion,
   AccordionContent,
@@ -18,14 +18,14 @@ import {
 import { cn } from "../lib/utils.js";
 import { useLocation } from "react-router";
 
-interface MobileNavProps {
+type MobileNavProps = {
   items: MainNavItem[];
   children?: React.ReactNode;
   Care24logo?: string;
   isUserApproved?: boolean;
-}
+} & UserNavProps
 
-export function MobileNavbar({ items, children, Care24logo, isUserApproved }: MobileNavProps) {
+export function MobileNavbar({ items, children, Care24logo, isUserApproved, ...rest }: MobileNavProps) {
   // const user = useUser();
   const location = useLocation();
   const segment = location.pathname.split("/")[1];
@@ -124,7 +124,7 @@ export function MobileNavbar({ items, children, Care24logo, isUserApproved }: Mo
           {children}
         </ScrollArea>
         <div className="shrink-0 grow-0 border-t pb-1 pt-2">
-          {/* <UserAccountNav expanded={true} /> */}
+          <UserAccountNav expanded={true} {...rest} />
         </div>
       </SheetContent>
     </Sheet>

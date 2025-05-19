@@ -1,6 +1,6 @@
 import type * as React from "react";
 import { useState } from "react";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import {
   Ambulance,
   Award,
@@ -20,6 +20,7 @@ import {
   GanttChart,
   LayoutGrid,
   List,
+  LogOut,
   type LucideIcon,
   MailPlus,
   Megaphone,
@@ -45,6 +46,9 @@ import {
   AccordionTrigger,
 } from "../components/accordion.js";
 import { RenderBadge } from "./mobile-nav.js";
+import { Button } from "../components/button.js";
+import { Avatar, AvatarImage, AvatarFallback } from "../components/avatar.js";
+import { UserType } from "../types/general.js";
 
 export type NavItem = {
   title: string;
@@ -57,13 +61,13 @@ export type NavItem = {
 
 export type MainNavItem = NavItem;
 
-interface MainNavProps {
+type MainNavProps = {
   items?: MainNavItem[];
   Care24logo: string;
   Care24icon: string;
   cards?: React.ReactNode | React.ReactNode[];
   isUserApproved?: boolean;
-}
+} & UserNavProps;
 
 export function MainNavbar({
   items,
@@ -71,6 +75,7 @@ export function MainNavbar({
   Care24icon,
   cards,
   isUserApproved,
+  ...rest
 }: MainNavProps) {
   //   const segment = useSelectedLayoutSegment();
   const [isExpanded, setIsExpanded] = useState(true);
@@ -209,7 +214,7 @@ export function MainNavbar({
       </div>
       {cards}
       <div className="shrink-0 grow-0 border-t pb-1 pt-2">
-        {/* <UserAccountNav expanded={isExpanded} /> */}
+        <UserAccountNav expanded={isExpanded} {...rest} />
       </div>
     </div>
   );
@@ -222,29 +227,28 @@ export function NavLinkItem({
   item: NavItem;
   isExpanded: boolean;
 }) {
-
   const Icon = item.icon ? iconList[item.icon] : null;
 
   return (
     <NavLink
       to={item.disabled ? "#" : item.href}
-      className={({isActive, isPending}) => cn(
-        "hover:bg-primary-bg-subtle text-gray-500 flex items-center justify-between rounded-[8px] px-4 py-2 text-base font-semibold",
-        isExpanded ? "md:justify-between" : "md:justify-left",
-        "md:h-14 md:p-3 lg:h-10 lg:justify-between",
-        isActive
-          ? "text-primary-text bg-primary-bg-subtle"
-          : "bg-white text-[#344054]",
-        isPending && "cursor-not-allowed opacity-80",
-        item.disabled && "cursor-not-allowed opacity-80"
-      )}
+      className={({ isActive, isPending }) =>
+        cn(
+          "hover:bg-primary-bg-subtle text-gray-500 flex items-center justify-between rounded-[8px] px-4 py-2 text-base font-semibold",
+          isExpanded ? "md:justify-between" : "md:justify-left",
+          "md:h-14 md:p-3 lg:h-10 lg:justify-between",
+          isActive
+            ? "text-primary-text bg-primary-bg-subtle"
+            : "bg-white text-[#344054]",
+          isPending && "cursor-not-allowed opacity-80",
+          item.disabled && "cursor-not-allowed opacity-80"
+        )
+      }
     >
       <div className="flex items-center">
         <div className="md:size-8 lg:size-6">
           {Icon && (
-            <Icon
-              className={cn(" md:size-8 md:p-1 lg:size-6 lg:p-0")}
-            />
+            <Icon className={cn(" md:size-8 md:p-1 lg:size-6 lg:p-0")} />
           )}
         </div>
         <div
@@ -298,3 +302,77 @@ export const iconList: { [key: string]: LucideIcon } = {
   CalendarDays,
   Ambulance,
 };
+
+export type UserNavProps = {
+  expanded?: boolean;
+  user?: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    avatar?: string;
+  };
+  signOut: () => void;
+};
+
+export function UserAccountNav({ expanded, user, signOut }: UserNavProps) {
+  const router = useNavigate();
+  return (
+    <div>
+      <Button
+        onClick={() => router("/sign-out")}
+        variant="ghost"
+        className={cn({
+          "flex w-full justify-center": !expanded,
+          hidden: expanded,
+        })}
+      >
+        <LogOut className=" size-5 " />
+      </Button>
+      <div
+        className={cn("flex justify-between space-x-3 p-2", {
+          "justify-center space-x-0": !expanded,
+        })}
+      >
+        <button
+          type="button"
+          onClick={() => router("/profile")}
+          className={cn("flex cursor-pointer items-center space-x-3 ", {
+            "space-x-0": !expanded,
+          })}
+        >
+          <Avatar size="default">
+            <AvatarImage src={user?.avatar || undefined} />
+            <AvatarFallback>
+              {user?.firstName?.charAt(0)}
+              {user?.lastName?.charAt(0)}
+            </AvatarFallback>
+          </Avatar>
+          <div
+            className={cn("flex flex-col text-left hover:underline ", {
+              hidden: !expanded,
+            })}
+          >
+            <h4 className="w-[150px] truncate md:w-[90px] xl:w-[170px]">
+              {user?.firstName} {user?.lastName}
+            </h4>
+            <p className="w-[150px] truncate md:w-[90px] xl:w-[170px]">
+              {user?.email}
+            </p>
+          </div>
+        </button>
+        <Button
+          onClick={() => {
+            signOut();
+            router("/sign-out");
+          }}
+          variant="ghost"
+          className={cn({
+            hidden: !expanded,
+          })}
+        >
+          <LogOut className=" size-5 " />
+        </Button>
+      </div>
+    </div>
+  );
+}

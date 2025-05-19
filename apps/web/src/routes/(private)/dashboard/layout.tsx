@@ -8,8 +8,12 @@ import logo from "@/assets/care24-logo.png";
 import icon from "@/assets/icon.png";
 import { Bell } from "lucide-react";
 import { UserType } from "@/types/general";
+import { useAuth } from "@clerk/react-router";
+import { useUser } from "@/hooks.ts/use-user";
 
 export const LayoutDashboard = () => {
+  const user = useUser();
+  const auth = useAuth();
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <div className="w-full md:flex">
@@ -19,6 +23,9 @@ export const LayoutDashboard = () => {
             Care24logo={logo}
             items={_nav}
             isUserApproved
+            user={user}
+            signOut={auth.signOut}
+
             // cards={
             //   <>
             //     <ProfileCard />
@@ -28,7 +35,13 @@ export const LayoutDashboard = () => {
           />
         </div>
         <div className="flex h-[72px] items-center justify-between border-b px-6 md:hidden">
-          <MobileNavbar items={_nav} Care24logo={logo} isUserApproved>
+          <MobileNavbar
+            items={_nav}
+            Care24logo={logo}
+            isUserApproved
+            user={user}
+            signOut={auth.signOut}
+          >
             {/* <>
               <ProfileCard />
               <AvailabilityCard />
